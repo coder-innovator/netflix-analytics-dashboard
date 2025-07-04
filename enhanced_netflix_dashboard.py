@@ -26,8 +26,27 @@ app.title = "Netflix Analytics - Enhanced PACE Analysis"
 
 # Load and prepare data with comprehensive analysis
 print("Loading Netflix data for enhanced PACE analysis...")
+import os
+print(f"Current working directory: {os.getcwd()}")
+print(f"Files in current directory: {os.listdir('.')}")
+if os.path.exists('data'):
+    print(f"Files in data directory: {os.listdir('data')}")
+else:
+    print("Data directory does not exist")
+
 try:
-    df = pd.read_csv('data/netflix_titles.csv')
+    # Try multiple possible paths
+    possible_paths = ['data/netflix_titles.csv', './data/netflix_titles.csv', 'netflix_titles.csv']
+    df = None
+    for path in possible_paths:
+        if os.path.exists(path):
+            print(f"Found dataset at: {path}")
+            df = pd.read_csv(path)
+            break
+    
+    if df is None:
+        raise FileNotFoundError("Could not find netflix_titles.csv in any expected location")
+    
     raw_count = len(df)
     
     # Comprehensive data cleaning with tracking
@@ -1249,8 +1268,11 @@ if __name__ == '__main__':
     print("💡 Press Ctrl+C to stop")
     print("-" * 70)
     
+    import os
+    port = int(os.environ.get('PORT', 8080))
+    
     try:
-        app.run(debug=False, host='127.0.0.1', port=8080)
+        app.run(debug=False, host='0.0.0.0', port=port)
     except Exception as e:
         print(f"❌ Error: {e}")
         print("Try running on a different port")
