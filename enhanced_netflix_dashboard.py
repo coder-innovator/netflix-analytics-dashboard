@@ -27,7 +27,7 @@ app.title = "Netflix Analytics - Enhanced PACE Analysis"
 # Load and prepare data with comprehensive analysis
 print("Loading Netflix data for enhanced PACE analysis...")
 try:
-    df = pd.read_csv('../data/netflix_titles.csv')
+    df = pd.read_csv('data/netflix_titles.csv')
     raw_count = len(df)
     
     # Comprehensive data cleaning with tracking
